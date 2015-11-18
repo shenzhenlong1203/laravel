@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Article;
+use App\Model\Article;
 
 class ArticleController extends Controller
 {
@@ -58,11 +58,11 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::findOrFail($id);
-        // if (is_null($article)) 
-        // {
-        //     abort(404);
-        // }
+        $article = Article::getArticleById($id);
+        if (is_null($article))
+        {
+            abort(404);
+        }
         return view('articles.detail', compact('article'));
     }
 
