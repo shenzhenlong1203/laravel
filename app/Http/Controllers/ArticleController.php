@@ -27,7 +27,7 @@ class ArticleController extends Controller
         //     'arrs' => array('arr1', 'arr2')
         //     ));
         // $articles = Article::all();
-        $articles = Article::oldest()->published()->get();
+        $articles = Article::latest()->published()->get();
         return view('articles.index', compact('articles'));
         //return $articles;
     }
@@ -66,6 +66,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::getArticleById($id);
+        //dd($article->published_at->diffForHumans());
         if (is_null($article))
         {
             abort(404);
