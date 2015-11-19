@@ -3,7 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Redis;
+use Cache;
 
 class Article extends Model
 {
@@ -19,10 +19,12 @@ class Article extends Model
 
     public static function getArticleById($id)
     {
+        if ($article = Cache::get(self::REDIS_ARTICLE_CACHE.$id))
+        {
+            return $article;
+        }
         $article = self::find($id);
-        $redis = new Redis();
-        $redis->connect('127.0.0.1');
-        $redis->set(self::REDIS_ARTICLE_CACHE . $id, $article, self::$cacheMinutes);
+        Cache::add(self::REDIS_ARTICLE_CACHE.$id, $article, self::$cacheMinutes);
         return $article;
     }
 }
