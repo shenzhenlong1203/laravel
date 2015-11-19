@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cache;
 
@@ -17,6 +18,10 @@ class Article extends Model
         'published_at'
     ];
 
+    protected $dates = [
+        'published_at'
+    ];
+
     public static function getArticleById($id)
     {
         if ($article = Cache::get(self::REDIS_ARTICLE_CACHE.$id))
@@ -29,5 +34,15 @@ class Article extends Model
             Cache::add(self::REDIS_ARTICLE_CACHE.$id, $article, self::$cacheMinutes);
         }
         return $article;
+    }
+
+    public function setPublishedAtAttribute($date)
+    {
+        $this->attributes['published_at'] = Carbon::createFromFormat('Y-m-d', $date);
+    }
+
+    public function scopePublished($query)
+    {
+        $query->where('published_at', '<=', Carbon::now());
     }
 }

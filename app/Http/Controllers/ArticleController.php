@@ -27,7 +27,7 @@ class ArticleController extends Controller
         //     'arrs' => array('arr1', 'arr2')
         //     ));
         // $articles = Article::all();
-        $articles = Article::latest()->get();
+        $articles = Article::oldest()->published()->get();
         return view('articles.index', compact('articles'));
         //return $articles;
     }
@@ -52,7 +52,7 @@ class ArticleController extends Controller
     {
         $input = $request->all();
         //$input['introduction'] = mb_substr(Request::get('content'),0,64);
-        $input['published_at'] = Carbon::now();
+        //$input['published_at'] = Carbon::now();
         Article::create($input);
         return redirect('/article');
     }
