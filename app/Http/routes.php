@@ -20,6 +20,8 @@ Route::get('/user/{name?}', function ($name = "longlong") {
 });
 
 //文章详情
+Route::get('/article/create','ArticleController@create');
+Route::post('/article/store','ArticleController@store');
 Route::get('/article','ArticleController@index');
-
 Route::get('/article/{id}','ArticleController@show');
+

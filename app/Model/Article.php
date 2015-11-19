@@ -24,7 +24,10 @@ class Article extends Model
             return $article;
         }
         $article = self::find($id);
-        Cache::add(self::REDIS_ARTICLE_CACHE.$id, $article, self::$cacheMinutes);
+        if ($article)
+        {
+            Cache::add(self::REDIS_ARTICLE_CACHE.$id, $article, self::$cacheMinutes);
+        }
         return $article;
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Model\Article;
+use Carbon\Carbon;
+
 
 class ArticleController extends Controller
 {
@@ -24,8 +26,9 @@ class ArticleController extends Controller
         //     'test' => 'test',
         //     'arrs' => array('arr1', 'arr2')
         //     ));
-        $articles = Article::all();
-        return view('articles.lists', compact('articles'));
+        // $articles = Article::all();
+        $articles = Article::latest()->get();
+        return view('articles.index', compact('articles'));
         //return $articles;
     }
 
@@ -36,7 +39,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        
+        return view('articles.create');
     }
 
     /**
@@ -47,7 +50,11 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        //$input['introduction'] = mb_substr(Request::get('content'),0,64);
+        $input['published_at'] = Carbon::now();
+        Article::create($input);
+        return redirect('/article');
     }
 
     /**
