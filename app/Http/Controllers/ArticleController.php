@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateArticleRequest;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -48,9 +49,10 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateArticleRequest $request)
     {
         $input = $request->all();
+        //$this->validate($request, ['title' => 'required | min : 3', 'introduction' => 'required', 'content' => 'required']);
         //$input['introduction'] = mb_substr(Request::get('content'),0,64);
         //$input['published_at'] = Carbon::now();
         Article::create($input);
@@ -65,12 +67,12 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::getArticleById($id);
+        $article = Article::findOrFail($id);
         //dd($article->published_at->diffForHumans());
-        if (is_null($article))
-        {
-            abort(404);
-        }
+        // if (is_null($article))
+        // {
+        //     abort(404);
+        // }
         return view('articles.detail', compact('article'));
     }
 
@@ -82,7 +84,8 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        return view('articles.edit', compact('article'));
     }
 
     /**
@@ -92,9 +95,11 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateArticleRequest $request, $id)
     {
-        //
+        $article = Article::findOrFail($id);
+        $article->update($request->all());
+        return redirect('/article');
     }
 
     /**

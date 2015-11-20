@@ -12,10 +12,30 @@
 <body>
 <div id="wrapper">
 
-    <body>
+<nav class="nav-container group" id="nav-header">
+        <div class="nav-wrap">
+            <ul class="nav container group">
+                <li class="menu-item">
+                    <a href="/article" rel="nofollow" target="">个人博客</a>
+                </li>
+                <li class="menu-item">
+                    <a href="/article/create" rel="nofollow" target="">发布博客</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+<body>
     <div class="container">
             <section class="content">
                 <div class="pad group">
+                    @if ($errors->any())
+                    <ul class="list-group">
+                        @foreach ($errors->all() as $error) 
+                            <li class="list-group-item list-group-item-danger"> {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
                     @yield('content')
                 </div>
             </section>

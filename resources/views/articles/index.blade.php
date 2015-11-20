@@ -1,6 +1,5 @@
 @extends('app')
 @section('content')
-<a class="more-link-custom" href="/article/create"><span><i>发布博客</i></span></a>
 @foreach ($articles as $article) 
 <article class="format-image group">
     <h2 class="post-title pad">
@@ -19,6 +18,7 @@
                 {{ $article->introduction }}
             </div>
             <a class="more-link-custom" href="/article/{{ $article->id }}"><span><i>更多</i></span></a>
+            
         </div>
     </div>
 </article>

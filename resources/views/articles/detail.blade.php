@@ -9,6 +9,7 @@
                 <div class="entry custome">
                     {{ $article->content }}
                 </div>
+                <a class="more-link-custom" href="/article/{{ $article->id }}/edit"><span><i>修改</i></span></a>
             </div>
         </div>
     </article>
