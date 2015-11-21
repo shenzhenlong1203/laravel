@@ -21,6 +21,13 @@
                 <li class="menu-item">
                     <a href="/article/create" rel="nofollow" target="">发布博客</a>
                 </li>
+                <li class="menu-item">
+                    @if (Auth::user()) 
+                        <a href="/auth/logout" rel="nofollow" target="">{{ Auth::user()->name }} 退出</a>
+                    @else
+                        <a href="/auth/login" rel="nofollow" target="">登录</a>
+                    @endif
+                </li>
             </ul>
         </div>
     </nav>

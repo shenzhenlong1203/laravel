@@ -15,7 +15,8 @@ class Article extends Model
         'title',
         'introduction',
         'content',
-        'published_at'
+        'published_at',
+        'user_id'
     ];
 
     protected $dates = [
@@ -44,5 +45,10 @@ class Article extends Model
     public function scopePublished($query)
     {
         $query->where('published_at', '<=', Carbon::now());
+    }
+
+    public function users()
+    {
+        $this->blongto('App\User');
     }
 }

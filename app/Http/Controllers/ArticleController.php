@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Model\Article;
 use Carbon\Carbon;
+use Auth;
 
 
 class ArticleController extends Controller
@@ -28,7 +29,13 @@ class ArticleController extends Controller
         //     'arrs' => array('arr1', 'arr2')
         //     ));
         // $articles = Article::all();
-        $articles = Article::latest()->published()->get();
+        if (!Auth::user()) 
+        {
+            return redirect('/auth/login');
+        }
+        $user = Auth::user();
+        $articles = Article::latest()->published()->where('user_id', '=', $user->id)->get();
+        
         return view('articles.index', compact('articles'));
         //return $articles;
     }
@@ -40,6 +47,10 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()) 
+        {
+            return redirect('/auth/login');
+        }
         return view('articles.create');
     }
 
@@ -55,6 +66,8 @@ class ArticleController extends Controller
         //$this->validate($request, ['title' => 'required | min : 3', 'introduction' => 'required', 'content' => 'required']);
         //$input['introduction'] = mb_substr(Request::get('content'),0,64);
         //$input['published_at'] = Carbon::now();
+        $input['user_id'] = Auth::user()->id;
+
         Article::create($input);
         return redirect('/article');
     }
@@ -110,6 +123,8 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        $article->delete();
+        return redirect('/article');
     }
 }
