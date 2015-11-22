@@ -5,6 +5,7 @@ namespace App\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cache;
+//use Illuminate\Contracts\Cache;
 
 class Article extends Model
 {
@@ -49,6 +50,6 @@ class Article extends Model
 
     public function users()
     {
-        $this->blongto('App\User');
+        $this->belongsTo('App\User');
     }
 }

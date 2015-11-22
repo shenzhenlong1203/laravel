@@ -12,4 +12,5 @@
     {!! Form::open(['url'=>'article']) !!}
        @include('articles.form')
     {!! Form::close() !!}
+
 @endsection
